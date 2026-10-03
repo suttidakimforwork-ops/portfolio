@@ -1,0 +1,300 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* 
+ * CYCLIC DESIGN SYSTEM — "Structured Clarity"
+ * Philosophy: Zero cognitive load, navy bookends, orange accents, clean white body
+ * Colors: #FAFAFA bg, #102E4F navy, #ff5722 orange, #1A1A1A text
+ * Fonts: DM Sans (EN) + Noto Sans Thai (TH)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Cyclic brand colors */
+  --color-cyclic-navy: oklch(0.22 0.07 240);
+  --color-cyclic-orange: oklch(0.62 0.22 35);
+  --color-cyclic-gray-light: oklch(0.97 0 0);
+  --color-cyclic-gray-mid: oklch(0.88 0 0);
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.13 0.01 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.13 0.01 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.01 260);
+  --primary: oklch(0.22 0.07 240);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.22 0.07 240);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.55 0.01 260);
+  --accent: oklch(0.62 0.22 35);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0.22 0.07 240);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', 'DM Sans', 'Noto Sans Thai', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  a[href] {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* Section label pill */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ff5722;
+    background: rgba(255, 87, 34, 0.05);
+    border: 0.8px solid rgba(255, 87, 34, 0.3);
+    padding: 0.4125rem 0.9125rem;
+    border-radius: 9999px;
+  }
+
+  /* Animated underline for nav */
+  .nav-link {
+    position: relative;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: #ff5722;
+    transition: width 0.25s ease;
+  }
+  .nav-link:hover {
+    color: #fff;
+  }
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Scroll animation */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Service card hover */
+  .service-card {
+    position: relative;
+    overflow: hidden;
+    border-left: 3px solid transparent;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  }
+  .service-card:hover {
+    border-left-color: #ff5722;
+    box-shadow: 0 8px 32px oklch(0 0 0 / 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Work card */
+  .work-card {
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px oklch(0 0 0 / 0.12);
+  }
+  .work-card img {
+    transition: transform 0.5s ease;
+  }
+  .work-card:hover img {
+    transform: scale(1.04);
+  }
+
+  /* CTA button */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #ff5722;
+    color: white;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    padding: 0.8125rem 1.75rem; /* 13px top/bottom → 47px total height matching Figma */
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    background: #e64a19;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px oklch(0.62 0.22 35 / 0.35);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    padding: 0.8125rem 1.75rem; /* 13px top/bottom → 47px total height matching Figma */
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+  .btn-outline:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* Marquee */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-track {
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Count-up number */
+  .stat-number {
+    font-size: clamp(2rem, 5vw, 4rem); /* 4rem = 64px matches Figma exactly at desktop */
+    font-weight: 800;
+    color: #ff5722;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Testimonial card */
+  .testimonial-card {
+    border-left: 3px solid #ff5722;
+    transition: box-shadow 0.25s;
+  }
+  .testimonial-card:hover {
+    box-shadow: 0 8px 32px oklch(0 0 0 / 0.08);
+  }
+
+  /* FAQ accordion */
+  .faq-item {
+    border-bottom: 1px solid oklch(0.9 0 0);
+    transition: background 0.2s;
+  }
+
+  /* Form input */
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid oklch(0.88 0 0);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: white;
+    color: #1A1A1A;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-input:focus {
+    border-color: #102E4F;
+    box-shadow: 0 0 0 3px oklch(0.22 0.07 240 / 0.1);
+  }
+  .form-input::placeholder {
+    color: oklch(0.65 0 0);
+  }
+}
